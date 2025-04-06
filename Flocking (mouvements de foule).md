@@ -55,9 +55,11 @@ Son apparente simplicité (syntaxique) ne doit pas cacher le fait qu’il parvie
 
 [LÖVE2D](https://love2d.org/) est un framework Lua pour la réalisation de jeu 2D basé sur la [SDL2](https://www.libsdl.org/). Facile à prendre en main ([tutoriels en français](https://love2d.org/wiki/Getting_Started_(Fran%C3%A7ais))) il est utilisé aussi pour le développement de jeux pro (dernier exemple en date : [Balatro](https://www.playbalatro.com/) qui a connu un très grand succès). Pour ne rien gâcher, on peut très facilement générer une version Javascript des jeux en LÖVE2D avec [love.js](https://github.com/Davidobot/love.js/).
 
-Je vous encourage donc à adopter l’un de ces deux frameworks (Pygame Zero ou LÖVE2D) pour mettre en œuvre et jouer avec les algorithmes et les projets de ce cours. Vous pourrez aussi trouver des exemples et des tutoriels (en cours de rédaction pour certains) sur le dépôt du Code Club que je co-anime au FabLab de Briançon : https://github.com/orgs/aucoindujeu/repositories
+Je vous encourage donc à adopter l’un de ces deux frameworks (Pygame Zero ou LÖVE2D) pour mettre en œuvre et jouer avec les algorithmes et les projets de ce cours. Vous pourrez aussi trouver des exemples et des tutoriels (en cours de rédaction pour certains) sur [ce dépôt du Code Club](https://github.com/aucoindujeu/codeclub) que je co-anime au FabLab de Briançon.
 
 Pour apprendre rapidement le Lua (et d’autres langages) : https://learnxinyminutes.com/docs/fr-fr/lua-fr/
+
+[Voici quelques notes](./Lua-specificites.md) sur les spécificités de Lua qui pourront peut-être vous éclairer sur certains points si vous bloquez ou êtes confrontés à un comportement que vous ne comprenez pas.
 
 ## Le Flocking
 
@@ -66,6 +68,8 @@ Nous allons voir dans ce cours une technique qui se rapporte à la thématique I
 Exemple : https://jehadel.github.io/love-boids/
 
 L’algorithme qui se cache derrière ce comportement se rapporte à ce que l’on appelle des comportement _émergents_ ou _auto-organisés_ ou encore relatif à la _complexité_.
+
+Nous allons en faire une présentation simplifiée. Celle-ci assimilée, vous pourrez aller voir [cet atelier guidé]() que j’ai préparé pour des lycéens en Python, qui propose d’implémenter de manière plus rigoureuse des boids dans un formalisme objet. Je vous propose de réaliser cet exercice en Lua à l’aide du module [classic](https://github.com/rxi/classic) pour refactorer le code que je vous propose et vous l’approprier tout en découvrant le framework Löve2D (et saisir les petites subtilités du concept de *boid*).
 
 ### Exemple d’émergence : le jeu de la vie
 
@@ -105,7 +109,7 @@ Pour opérer ces règles, on définit pour chaque boid différentes zones (la fo
 * une zone d’orientation (intermédiaire) : si un autre boid est dans cette zone, le boid va le suivre, en alignant sa direction et sa vitesse)
 * le boid sera indifférent à tout ce qui est au delà de la zone d’attraction on peut aussi définir un angle mort derrière le boid auquel il sera également insensible 
 
-![Zones comportement](./pix/Zones-boid.png)
+![Zones comportement](./Images/Zones-boid.png)
 
 
 
@@ -114,6 +118,8 @@ On peut conceptualiser le problème également en imaginant que chaque boid se d
 * Un boid va être attiré par le barycentre de la position des boids qu’il « voit »
 * Un boid va ajuster sa vitesse à la moyenne de la vitesse des boids autour de lui
 * Un boid va garder ses distances avec les boids qui sont « trop proches »
+
+Vous trouverez des schémas pour vous aider à visualiser ces différentes forces [dans cet autre atelier](https://github.com/aucoindujeu/codeclub/tree/main/pygame/boids).
 
 ### Exemple de code
 
@@ -353,4 +359,6 @@ end
   * on peut ajouter un prédateur, on peut faire en sorte que les boids soient attirés par le pointeur
   * on peut désigner quelques boids comme leader (quel effet sur le groupe ?) etc.
 * ce type d’algorithme n’est pas seulement utile pour les être vivants, il peut servir aussi pour des effets de particules
-* je propose [une base d’atelier](https://github.com/Jehadel/Base-Atelier-Cours) (un sprite qui se déplace dans une grille), ajouter des sprites qui suivent le personnages (comme les familiers du magicien, ou des fantômes, ou une « aura » de particules, etc.). Vous pouvez utiliser aussi le framework ou les idées que vous avez !
+* [je propose un atelier en Python](https://github.com/aucoindujeu/codeclub/tree/main/pygame/boids) pour explorer de manière plus canonique et guidée le concept de *boids*. Pour vous approprier le framework Love2D, essayez de réaliser en Lua cet atelier prévu pour Python à la base, avec l’aide du module [classic]() pour disposer rapidement d’un paradigme orienté objet en Lua. Refactorer le code que je propose
+   dans ce chapitre, pour le rendre plus proche de la définition rigoureuse d’un *boids* et en utilisant la POO.
+* je propose aussi [une base d’atelier](https://github.com/Jehadel/IA-JV-cours/tree/main/Code-exemple/Base-atelier-pathfinding-love2D) (un sprite qui se déplace dans une grille, notamment pour le *pathfinding* que nous verrons plus tard), vous pouvez par exemple ajouter des *sprites*/*boids* qui suivent le personnages (comme les familiers du magicien, ou des fantômes, ou une « aura » de particules, etc.). Vous pouvez utiliser aussi le langage ou framework que vous préférez, et vos propres idées !
