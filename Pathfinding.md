@@ -15,7 +15,7 @@ Un déplacement peut être direct entre deux lieux (nœuds), et n’emprunter qu
 
 ### Graphes pondérés
 
-On peut associer une valeur à chaque connexion, ce que l’on appelle un _poids_. Dans le contexte du pathfinding, ces poids représentent souvent la difficulté ou le _coût_ du déplacement (la distance, ou le temps qu’il prend, ou encore l’énergie, la consommation de carburant par exemple). Rien n’interdit d’avoir des poids négatifs, mais si cela peut avoir un sens mathématiquement dans certains problèmes, ce n’est pas le cas du pathfinding. D’autant que les algorithmes qui gèrent ce genre de situation sont plus compliqués à mettre au point, et ceux qu’on utilise couramment dans les jeux vidéo partent  dans la plupart des cas dans des boucles infinies s’il y a des poids négatifs (car il n’y a pas de solution). Les poids seront donc toujours positifs.
+On peut associer une valeur à chaque connexion, ce que l’on appelle un _poids_. Dans le contexte du pathfinding, ces poids représentent souvent la difficulté ou le _coût_ du déplacement (la distance, ou le temps qu’il prend, ou encore l’énergie, la consommation de carburant par exemple). Rien n’interdit d’avoir des poids négatifs, mais si cela peut avoir un sens mathématiquement dans certains problèmes, ce n’est pas le cas du pathfinding. D’autant que les algorithmes qui gèrent ce genre de situation sont plus compliqués à mettre au point, et ceux qu’on utilise couramment dans les jeux vidéo partent dans la plupart des cas dans des boucles infinies s’il y a des poids négatifs (car il n’y a pas de solution). Les poids seront donc toujours positifs.
 
 On peut calculer le coût total d’un déplacement à travers un graphe en ajoutant les coûts.
 
@@ -42,8 +42,6 @@ Cet algorithme a été créé pour résoudre un problème en théorie des graphe
 
 ![Graphe pondéré](./Images/Graphe_pondéré.png)
 
- 
-
 Notre objectif est pour chaque nœud de lister les plus courts chemins vers tous les autres nœuds. Par exemple, considérant A, déterminer le plus court chemin entre A et B, entre A et C, entre A et D et entre A et E. Puis, considérant B, déterminer le plus court chemin entre B et A, entre B et C, entre B et D, etc.
 
 Pour cela nous allons déclarer deux listes : la liste des nœuds visités (vous pourrez trouver dans la littérature le terme « closed », en opposition avec une liste « open » qui concerne les nœuds évalués lors du traitement d’autres nœud, nous n’utiliserons pas une telle liste ici), et la liste des nœuds qui n’ont pas encore été visités (non-visités). Au départ, la liste des nœuds visités est vide, et celle des nœuds non visités contient tous les nœuds :
@@ -53,7 +51,7 @@ lst_visités = []
 lst_non-visités = [A, B, C, D, E]
 ```
 
-Nous déclarerons également une table qui contiendra pour chaque nœud la distance la plus courte entre ce nœud et le nœud « d’origine » considéré à cet instant. D’un point de vue mathématique les distances sont initialisées à « infini », car on n’inscrit dans la table qu’une valeur si celle-ci est inférieure à la valeur déjà présente dans la table. En pratique on initialisera avec la valeur `null`
+Nous déclarerons également une table qui contiendra pour chaque nœud la distance la plus courte entre ce nœud et le nœud « d’origine » considéré à cet instant. D’un point de vue mathématique les distances sont initialisées à « infini », car on n’inscrit dans la table qu’une valeur si celle-ci est inférieure à la valeur déjà présente dans la table. En pratique on initialisera avec la valeur `null` si le langage utilisé ne dispose pas de la valeur « infini ».
 
 | Nœud | Distance la plus courte |
 | ---- | ----------------------- |
@@ -85,6 +83,8 @@ Quelle est la distance entre A et A ? 0.  Mettons à jour la table des plus cour
 | C    | « infini »              |
 | D    | « infini »              |
 | E    | « infini »              |
+
+![Rappel graphe](./Images/Graphe_pondéré.png)
 
 #### Étape 2 : distance des voisins
 
@@ -127,9 +127,9 @@ lst_non-visités = [B, C, D, E]
 
 Quels sont les nœuds qui sont voisins de D ? A, B et E. Mais A a été visité, il n’est donc plus réputé connecté à D.
 
-Quelle est la distance entre D et B ? 1 + 1 = 2 (rappel : D a la distance 1)
+Quelle est la distance entre A et B en passant par D (par la suite on dira entre B et D, la distance A/B étant réputée une caractéristique de D, égale à 1) ? 1 + 1 = 2
 
-Entre D et E ? 1 + 6 = 7
+Entre D et E ? (soit entre A et E en passant par D, même remarque) ? 1 + 6 = 7
 
 #### Étape 3 : mise à jour de la table
 
@@ -197,7 +197,7 @@ lst_non-visités = [C, E]
 
 Ici c’est C le nœud non-visité qui a la distance la plus courte. Ce sera notre point de départ.
 
-![Graphe pondéré A, B, C, D visités E nœud courant](./pix/Graphe pondéré_4ADB-C.png)
+![Graphe pondéré A, B, C, D visités E nœud courant](./Images/Graphe pondéré_4ADB-C.png)
 
 #### Étape 2 : distance des voisins
 
@@ -330,7 +330,7 @@ Comment va se dérouler l‘algorithme A* ?
 
 * On va créer en premier une liste où l’on va stocker toutes les cases pour lesquelles on va déterminer si le chemin est susceptible de passer, ou pas : ce sera le but de l’algorithme de le calculer. Cette liste est souvent appelée la liste *open*.
 
-* La case de départ sera ajoutée à la liste. Ensuite on va ajouter à cette liste (on les marque d’un point jaune sur l’image) toutes les cases adjacentes où le personnage peut se déplacer, tout en notant bien depuis quelle case on arrive (case prédécesseur comme vu dans la section précédente sur l’algorithme de Dijkstra, appelée aussi case parent), sur l’image on indique la direction vers la case parent. On a vu précédemment que pour reconstituer un parcours il n’était pas idiot de sauver la succession de case empruntées. Bien sûr on ignore les cases infranchissables ou interdites. On voir qu’on est dans un cas très similaire à ce que l’on faisait avec l’algorithme de Dijkstra, si on imagine que les cases sont les nœuds adjacents d’un graphe.
+* La case de départ sera ajoutée à la liste. Ensuite on va ajouter à cette liste (on les marque d’un point jaune sur l’image) toutes les cases adjacentes où le personnage peut se déplacer, tout en notant bien depuis quelle case on arrive (case prédécesseur comme vu dans la section précédente sur l’algorithme de Dijkstra, appelée aussi case parent), sur l’image on indique la direction vers la case parent. On a vu précédemment que pour reconstituer un parcours il n’était pas idiot de sauver la succession de case empruntées. Bien sûr on ignore les cases infranchissables ou interdites. On voit qu’on est dans un cas très similaire à ce que l’on faisait avec l’algorithme de Dijkstra, si on imagine que les cases sont les nœuds adjacents d’un graphe.
 * Vu que le personnage est déjà sur la case de départ, une fois qu’on l’a traitée en enregistrant ses cases adjacentes dans la liste *open*, on peut la déplacer dans la liste des cases déjà visitée (comme dans Dijkstra) ou liste *closed*. Sur l’image on marque alors la case d’un point bleu.
 
 On se doute que comme dans Dijkstra l’étape suivante va être de sélectionner une des cases de la liste *open* en fonction de son *coût*, et qu’on répétera le processus jusqu’à trouver la case d’arrivée. C’est là que la grosse différence avec Dijkstra va apparaître.
