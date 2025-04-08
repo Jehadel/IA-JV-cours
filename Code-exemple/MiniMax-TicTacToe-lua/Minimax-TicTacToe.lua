@@ -13,11 +13,11 @@ end
 function game.instructions()
 
     print('_______')
-    print('|1|2|3|')
+    print('|7|8|9|')
     print('-------')
     print('|4|5|6|')
     print('-------')
-    print('|7|8|9|')
+    print('|1|2|3|')
     print('¯¯¯¯¯¯¯')
 
     print('Tic-tac-toe game. You play the "O", IA plays the "X". Enter the cell number (has indicated above) you want to play when asked.')
@@ -28,11 +28,11 @@ end
 
 function game.disp()
     print('_______')
-    print('|'..game.board[1]..'|'..game.board[2]..'|'..game.board[3]..'|')
+    print('|'..game.board[7]..'|'..game.board[8]..'|'..game.board[9]..'|')
     print('-------')
     print('|'..game.board[4]..'|'..game.board[5]..'|'..game.board[6]..'|')
     print('-------')
-    print('|'..game.board[7]..'|'..game.board[8]..'|'..game.board[9]..'|')
+    print('|'..game.board[1]..'|'..game.board[2]..'|'..game.board[3]..'|')
     print('¯¯¯¯¯¯¯')
 end
 
