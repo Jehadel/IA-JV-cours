@@ -59,7 +59,7 @@ C’est un framework libre et facile à prendre en main. Basé sur [LuaJIT](http
 
 ### Portée des variables
 
-Par défaut les variables sont globales. Il faut les faire précéder du mot clé `local` pour qu’elle soit limitée à la portée du bloc courant (fichier, fonction, boucle…)
+Par défaut les variables sont globales. Il faut les faire précéder du mot clé `local` pour qu’elle soit limitée à la portée du bloc courant (fichier, fonction, boucle…). Attention car si vous oubliez de déclarer une variable locale, ça peut parfois être très difficile à debugger (notamment dans le cas des fonctions récursives, que nous allons utiliser intensément dans ce cours).
 
 ```lua
 a = 1 -- variable globale
@@ -103,6 +103,31 @@ imported_module.module_function() -- appelle la fonction module_function() du mo
 ### Le mot clef `end`
 
 Une erreur courante est d’oublier le mot clef `end` pour clore une fonction, une boucle, un test conditionnel…
+
+### Entrée console
+
+Pour lire l’entrée standard (console), il faut utiliser la fonction `io.read()`. La fonction `io.input()` sert à lire des fichiers.
+
+Attention `io.read()` retourne un type chaîne de caractères, penser à convertir les types, par exemple avec `tonumber()` si on attend un type nombre.:w
+
+### Concaténation de chaînes
+
+L’opérateur de concaténation est `..` :
+
+```lua
+a = 'Nom'
+b = 'Prénom'
+
+print(a..' '..b)
+
+--[[
+Retournera 
+
+Nom Prénom
+]]
+```
+
+
 
 ###  Les tables
 
