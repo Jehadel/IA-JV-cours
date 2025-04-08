@@ -92,9 +92,7 @@ function game.minimax(maximize)
                 game.board[cell_idx] = ' '
 
                 -- now we maximize (if new score > best score we update the best score)
-                if score > best_score then
-                    best_score = score
-                end
+                best_score = math.max(score, best_score)
             
             end
 
@@ -116,9 +114,7 @@ function game.minimax(maximize)
                 game.board[cell_idx] = ' '
 
                 -- now we minimize (if new score < best score we update the best score)
-                if score < best_score then
-                    best_score = score
-                end
+                best_score = math.min(score, best_score)
 
             end
 
@@ -290,9 +286,7 @@ function minimax(maximize, depth, alpha, beta)
                 game.board[cell_idx] = ' '
 
                 -- now we maximize (if new score > best score we update the best score)
-                if score > best_score then
-                    best_score = score
-                end
+                best_score = math.max(score, best_score)
                 
                 alpha = math.max(alpha, score)
                     -- pruning
