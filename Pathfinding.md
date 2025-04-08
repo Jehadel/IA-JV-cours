@@ -306,6 +306,8 @@ Attention ! Comme beaucoup de pseudo code, pour être implémenté il demande l�
 
 Si l’on cherche le plus court chemin entre deux nœuds en particulier, il suffit d’intégrer une condition d’arrêt dès que le nœud courant correspond au nœud final recherché. Il faut ensuite de manière itérative parcourir le chemin inverse pour isoler un parcours unique. Attention, si un tel chemin n’existe pas entre les deux nœuds, l’algorithme va s’engager dans une boucle infinie.
 
+Une autre utilisation de cet algorithme peut être le *prétraitement* d’un graphe dans l’objectif d’extraire des chemins les plus courts particuliers. L’algorithme de Dijkstra génère en fait un arbre des chemins les plus courts  à partir d’un graphe quelconque, une fois que l’on dispose de cet arbre, la recherche d’un chemin (le plus court) en particulier est grandement facilité et accéléré.
+
 L’implémentation complète de cet algorithme demande plus que quelques lignes de code. Ce n’est pas l’objet de ce cours, nous avons juste besoin de créer une intuition sur le fonctionnement de cet algorithme, pour faciliter la compréhension de l’algorithme A* ou « A star ».
 
 ## A* (Art, Nilsson & Raphael, 1968)
