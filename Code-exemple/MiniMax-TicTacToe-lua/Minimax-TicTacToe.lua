@@ -192,9 +192,7 @@ function game.minimax(maximize)
                 game.board[cell_idx] = ' '
 
                 -- now we maximize (if new score > best score we update the best score)
-                if score > best_score then
-                    best_score = score
-                end
+                best_score = math.max(score, best_score)
             
             end
 
@@ -216,9 +214,7 @@ function game.minimax(maximize)
                 game.board[cell_idx] = ' '
 
                 -- now we minimize (if new score < best score we update the best score)
-                if score < best_score then
-                    best_score = score
-                end
+                best_score = math.min(score, best_score)
 
             end
 
@@ -245,9 +241,11 @@ function game.ia_turn()
             score = game.minimax(false)
             -- once the move has been evaluated, we go back to the initial configuration (we cancel the simulated move)
             game.board[cell_idx] = ' ' 
+            --[[ uncomment to follow the score/bestscore
             print(score)
             print(best_score)
             print('--')
+            ]]
 
             if score > best_score then
                 best_score = score
@@ -260,9 +258,10 @@ function game.ia_turn()
 
     -- finally we play the selected move 
     game.board[best_move] = game.ia_mark
+    
+    --[[ uncomment to see the best_move selected
     print(best_move)
-    -- we test if this move would end (win) the game
-    game.is_endgame()
+    ]]
 
 end
 
